@@ -12,7 +12,7 @@ Let everyone rides his own trojan horse without pain!
 | Panel | Progress | 
 |-------|----------|
 | [Local(without Panel)](/local) | 100% |
-| VNetPanel | 80% |
+| [VNetPanel](/vnetpanel) | 100% |
 | WHMCS | 70% |
 | SSPanel | Under developing |
 

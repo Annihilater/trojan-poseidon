@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NEW_VER=v0.0.1
+NEW_VER=v0.0.2
 DOWNLOAD_LINK="https://github.com/ColetteContreras/trojan-poseidon/releases/download/${NEW_VER}/trojan_poseidon-linux-64.zip"
 
 INSTALL_DIR=${INSTALL_DIR:-"/root"}
@@ -125,7 +125,10 @@ installTrojanPoseidon(){
 
 
         cat >Poseidonfile <<EOF
-$nodeHost
+# See https://colettecontreras.github.io/trojan-poseidon/#/?id=poseidonfile
+# to understand configs deeper
+
+$nodeHost:443
 
 # Uncomment below to enable local static web server
 # root /var/www/trojan_website
@@ -133,7 +136,14 @@ $nodeHost
 # Mirror a website of your desire
 mirror https://colettecontreras.github.io/t-rex-runner
 
-tls $EMAIL
+# Change email to your own to get a tls from Let's Encrypt
+# 80 port MUST be free
+# format1: tls <email>
+tls $email
+
+# If you already hold your tls certifications, # you can use format2,
+# which will not occupy 80 port
+# format2: tls server.crt server.key
 
 # format: vnetpanel apiHost nodeID secretKey
 vnetpanel $webApi $nodeId $nodeKey
