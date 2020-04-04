@@ -14,7 +14,7 @@ Let everyone rides his own trojan horse without pain!
 | [Local(without Panel)](/local) | 100% |
 | [VNetPanel](/vnetpanel) | 100% |
 | WHMCS | 70% |
-| SSPanel | Under developing |
+| [SSPanel](/sspanel) | 100% |
 
 
 ### Poseidonfile
@@ -81,7 +81,8 @@ vnetpanel https://www.vnetpanel.com NODE_ID SECRET_KEY
 ##### sspanel
 
 ```
-# on the way
+# format: sspanel webApi nodeID muKey
+sspanel $webApi $nodeId $muKey
 ```
 
 ##### whmcs

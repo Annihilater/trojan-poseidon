@@ -131,7 +131,7 @@ installTrojanPoseidon(){
 $nodeHost:443
 
 # Uncomment below to enable local static web server
-# root /var/www/trojan_website
+# root /var/www/html
 
 # Mirror a website of your desire
 mirror https://colettecontreras.github.io/t-rex-runner

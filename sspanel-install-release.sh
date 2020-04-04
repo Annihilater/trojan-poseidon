@@ -1,12 +1,12 @@
 #!/bin/bash
 
 NEW_VER=v0.0.2
-DOWNLOAD_LINK="https://github.com/ColetteContreras/trojan-poseidon/releases/download/${NEW_VER}/trojanp-linux-64.zip"
+DOWNLOAD_LINK="https://github.com/ColetteContreras/trojan-poseidon/releases/download/${NEW_VER}/trojan_poseidon-linux-64.zip"
 
 INSTALL_DIR=${INSTALL_DIR:-"/root"}
 mkdir -p "$INSTALL_DIR" || (echo "mkdir ${INSTALL_DIR} error"; return $?)
 
-INSTALL_DIR="${INSTALL_DIR%/}/trojanp/"
+INSTALL_DIR="${INSTALL_DIR%/}/trojan_poseidon/"
 
 SYSTEMCTL_CMD=$(command -v systemctl 2>/dev/null)
 SERVICE_CMD=$(command -v service 2>/dev/null)
@@ -28,7 +28,7 @@ colorEcho(){
 }
 
 
-ZIPFILE="$(mktemp -d)/trojanp.zip"
+ZIPFILE="$(mktemp -d)/trojan_poseidon.zip"
 
 # return 1: not apt, yum, or zypper
 getPMT(){
@@ -95,7 +95,7 @@ extract(){
 
 stopTrojanPoseidon(){
     colorEcho ${BLUE} "Shutting down Trojan-Poseidon service."
-    systemctl stop trojanp
+    systemctl stop trojan_poseidon
     if [[ $? -ne 0 ]]; then
         colorEcho ${YELLOW} "Failed to shutdown Trojan-Poseidon service."
         return 2
@@ -104,7 +104,7 @@ stopTrojanPoseidon(){
 }
 
 startTrojanPoseidon(){
-    systemctl start trojanp
+    systemctl start trojan_poseidon
     if [[ $? -ne 0 ]]; then
         colorEcho ${YELLOW} "Failed to start Trojan-Poseidon service."
         return 2
@@ -114,46 +114,43 @@ startTrojanPoseidon(){
 
 
 installTrojanPoseidon(){
-    chmod +x trojanp
+    chmod +x trojan_poseidon
 
     if [[ ! -f "Poseidonfile" ]]; then
+        nodeId=${NODE_ID:-"NODE_ID"}
+        muKey=${MU_KEY:-"MU_KEY"}
+        nodeHost=${NODE_HOST:-"请替换为你的节点域名"}
+        webApi=${WEB_API:-"http或https://面板地址"}
+        email=${EMAIL:-"trojan@poseidon.com"}
+
+
         cat >Poseidonfile <<EOF
 # See https://colettecontreras.github.io/trojan-poseidon/#/?id=poseidonfile
 # to understand configs deeper
 
-# Replace localhost to your cool domain
-localhost:443
+$nodeHost:443
+
+# Uncomment below to enable local static web server
+# root /var/www/html
+
+# Mirror a website of your desire
+mirror https://colettecontreras.github.io/t-rex-runner
 
 # Change email to your own to get a tls from Let's Encrypt
 # 80 port MUST be free
 # format1: tls <email>
-tls trojan@poseidon.com
+tls $email
 
 # If you already hold your tls certifications, # you can use format2,
 # which will not occupy 80 port
 # format2: tls server.crt server.key
 
-
-# Uncomment below to enable local static web server
-#root /var/www/html
-
-# Mirror a website of your desire
-mirror https://colettecontreras.github.io/t-rex-runner/
-
-local {
-  # Attention please, you should change password1 and password2 to your own password
-  # Q: How to obtain a secure password?
-  # A: one good way is to use UUID as your password
-  # there are many websites there, which offer you a simple way to generate a UUID.
-  # e.g.: https://www.uuidgenerator.net/version4
-  #       https://www.uuidtools.com/
-
-  passwords password1 password2
-}
+# format: sspanel webApi nodeID muKey
+sspanel $webApi $nodeId $muKey
 EOF
     fi
 
-    mv trojanp.service /etc/systemd/system/
+    mv trojan_poseidon.service /etc/systemd/system/
     systemctl daemon-reload
 
     return 0
@@ -169,10 +166,8 @@ main(){
     colorEcho ${BLUE} "Installing Trojan-Poseidon ${NEW_VER}"
     disableFirewall || return $?
 
-    _shouldStart=false
-    if pgrep "trojanp" > /dev/null ; then
+    if pgrep "trojan_poseidon" > /dev/null ; then
         stopTrojanPoseidon || return $?
-        _shouldStart=true
     fi
 
     # install deps
@@ -185,9 +180,7 @@ main(){
     rm -rf ${ZIPFILE}
     cd "$INSTALL_DIR"
     installTrojanPoseidon || return $?
-    if [ "$_shouldStart" = true ] ; then
-        startTrojanPoseidon || return $?
-    fi
+    startTrojanPoseidon || return $?
 }
 
 main
