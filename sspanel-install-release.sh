@@ -1,12 +1,12 @@
 #!/bin/bash
 
-NEW_VER=v0.0.2
-DOWNLOAD_LINK="https://github.com/ColetteContreras/trojan-poseidon/releases/download/${NEW_VER}/trojan_poseidon-linux-64.zip"
+NEW_VER=v0.0.3
+DOWNLOAD_LINK="https://github.com/ColetteContreras/trojan-poseidon/releases/download/${NEW_VER}/trojanp-linux-64.zip"
 
 INSTALL_DIR=${INSTALL_DIR:-"/root"}
 mkdir -p "$INSTALL_DIR" || (echo "mkdir ${INSTALL_DIR} error"; return $?)
 
-INSTALL_DIR="${INSTALL_DIR%/}/trojan_poseidon/"
+INSTALL_DIR="${INSTALL_DIR%/}/trojanp/"
 
 SYSTEMCTL_CMD=$(command -v systemctl 2>/dev/null)
 SERVICE_CMD=$(command -v service 2>/dev/null)
@@ -28,7 +28,7 @@ colorEcho(){
 }
 
 
-ZIPFILE="$(mktemp -d)/trojan_poseidon.zip"
+ZIPFILE="$(mktemp -d)/trojanp.zip"
 
 # return 1: not apt, yum, or zypper
 getPMT(){
@@ -95,7 +95,7 @@ extract(){
 
 stopTrojanPoseidon(){
     colorEcho ${BLUE} "Shutting down Trojan-Poseidon service."
-    systemctl stop trojan_poseidon
+    systemctl stop trojanp
     if [[ $? -ne 0 ]]; then
         colorEcho ${YELLOW} "Failed to shutdown Trojan-Poseidon service."
         return 2
@@ -104,7 +104,7 @@ stopTrojanPoseidon(){
 }
 
 startTrojanPoseidon(){
-    systemctl start trojan_poseidon
+    systemctl start trojanp
     if [[ $? -ne 0 ]]; then
         colorEcho ${YELLOW} "Failed to start Trojan-Poseidon service."
         return 2
@@ -114,11 +114,11 @@ startTrojanPoseidon(){
 
 
 installTrojanPoseidon(){
-    chmod +x trojan_poseidon
+    chmod +x trojanp
 
     if [[ ! -f "Poseidonfile" ]]; then
         nodeId=${NODE_ID:-"NODE_ID"}
-        muKey=${MU_KEY:-"MU_KEY"}
+        nodeKey=${NODE_KEY:-"NODE_KEY"}
         nodeHost=${NODE_HOST:-"请替换为你的节点域名"}
         webApi=${WEB_API:-"http或https://面板地址"}
         email=${EMAIL:-"trojan@poseidon.com"}
@@ -150,7 +150,7 @@ sspanel $webApi $nodeId $muKey
 EOF
     fi
 
-    mv trojan_poseidon.service /etc/systemd/system/
+    mv trojanp.service /etc/systemd/system/
     systemctl daemon-reload
 
     return 0
@@ -166,8 +166,10 @@ main(){
     colorEcho ${BLUE} "Installing Trojan-Poseidon ${NEW_VER}"
     disableFirewall || return $?
 
-    if pgrep "trojan_poseidon" > /dev/null ; then
+    _shouldStart=false
+    if pgrep "trojanp" > /dev/null ; then
         stopTrojanPoseidon || return $?
+        _shouldStart=true
     fi
 
     # install deps
@@ -180,7 +182,9 @@ main(){
     rm -rf ${ZIPFILE}
     cd "$INSTALL_DIR"
     installTrojanPoseidon || return $?
-    startTrojanPoseidon || return $?
+    if [ "$_shouldStart" = true ] ; then
+        startTrojanPoseidon || return $?
+    fi
 }
 
 main
