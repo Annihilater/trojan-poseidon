@@ -118,7 +118,7 @@ installTrojanPoseidon(){
 
     if [[ ! -f "Poseidonfile" ]]; then
         nodeId=${NODE_ID:-"NODE_ID"}
-        nodeKey=${NODE_KEY:-"NODE_KEY"}
+        muKey=${MU_KEY:-"MU_KEY"}
         nodeHost=${NODE_HOST:-"请替换为你的节点域名"}
         webApi=${WEB_API:-"http或https://面板地址"}
         email=${EMAIL:-"trojan@poseidon.com"}

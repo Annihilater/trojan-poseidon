@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NEW_VER=v0.0.2
+NEW_VER=v0.0.3
 DOWNLOAD_LINK="https://github.com/ColetteContreras/trojan-poseidon/releases/download/${NEW_VER}/trojanp-linux-64.zip"
 
 INSTALL_DIR=${INSTALL_DIR:-"/root"}
