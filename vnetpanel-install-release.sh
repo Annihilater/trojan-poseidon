@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NEW_VER=v0.0.4
+NEW_VER=v0.0.5
 DOWNLOAD_LINK="https://github.com/ColetteContreras/trojan-poseidon/releases/download/${NEW_VER}/trojanp-linux-64.zip"
 
 INSTALL_DIR=${INSTALL_DIR:-"/root"}
@@ -166,12 +166,6 @@ main(){
     colorEcho ${BLUE} "Installing Trojan-Poseidon ${NEW_VER}"
     disableFirewall || return $?
 
-    _shouldStart=false
-    if pgrep "trojanp" > /dev/null ; then
-        stopTrojanPoseidon || return $?
-        _shouldStart=true
-    fi
-
     # install deps
     installSoftware "curl" || return $?
     installSoftware "unzip" || return $?
@@ -182,9 +176,7 @@ main(){
     rm -rf ${ZIPFILE}
     cd "$INSTALL_DIR"
     installTrojanPoseidon || return $?
-    if [ "$_shouldStart" = true ] ; then
-        startTrojanPoseidon || return $?
-    fi
+    startTrojanPoseidon || return $?
 }
 
 main
