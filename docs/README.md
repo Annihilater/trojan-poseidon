@@ -35,7 +35,15 @@ line N: DIRECTIVE param1 param2 ... paramN
 ##### tls
 
 ```
+# Change email to your own to get a tls from Let's Encrypt
+# 80 port MUST be free
+# format1: tls <email>
+tls trojan@poseidon.com
 
+# If you already hold your tls certifications,
+# you can use format2,
+# which will not occupy 80 port
+# format2: tls server.crt server.key
 ```
 
 ##### root
@@ -70,6 +78,13 @@ mirror website
 bind host
 ```
 
+##### license
+
+`license` set your license
+
+```
+license Put-Your-License-Here
+```
 
 ##### vnetpanel
 

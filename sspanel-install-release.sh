@@ -122,6 +122,7 @@ installTrojanPoseidon(){
         nodeHost=${NODE_HOST:-"请替换为你的节点域名"}
         webApi=${WEB_API:-"http或https://面板地址"}
         email=${EMAIL:-"trojan@poseidon.com"}
+        license=${LICENSE}
 
 
         cat >Poseidonfile <<EOF
@@ -140,6 +141,8 @@ mirror https://colettecontreras.github.io/t-rex-runner
 # 80 port MUST be free
 # format1: tls <email>
 tls $email
+
+license $license
 
 # If you already hold your tls certifications, # you can use format2,
 # which will not occupy 80 port
