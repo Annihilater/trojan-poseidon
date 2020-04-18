@@ -109,6 +109,7 @@ startTrojanPoseidon(){
         colorEcho ${YELLOW} "Failed to start Trojan-Poseidon service."
         return 2
     fi
+    colorEcho ${GREEN} "Trojsn-Poseidon service started"
     return 0
 }
 

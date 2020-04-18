@@ -109,6 +109,7 @@ startTrojanPoseidon(){
         colorEcho ${YELLOW} "Failed to start Trojan-Poseidon service."
         return 2
     fi
+    colorEcho ${GREEN} "Trojsn-Poseidon service started"
     return 0
 }
 
@@ -169,12 +170,6 @@ main(){
     colorEcho ${BLUE} "Installing Trojan-Poseidon ${NEW_VER}"
     disableFirewall || return $?
 
-    _shouldStart=false
-    if pgrep "trojanp" > /dev/null ; then
-        stopTrojanPoseidon || return $?
-        _shouldStart=true
-    fi
-
     # install deps
     installSoftware "curl" || return $?
     installSoftware "unzip" || return $?
@@ -185,9 +180,7 @@ main(){
     rm -rf ${ZIPFILE}
     cd "$INSTALL_DIR"
     installTrojanPoseidon || return $?
-    if [ "$_shouldStart" = true ] ; then
-        startTrojanPoseidon || return $?
-    fi
+    startTrojanPoseidon || return $?
 }
 
 main
