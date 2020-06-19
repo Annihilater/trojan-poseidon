@@ -12,10 +12,10 @@ Let everyone rides his own trojan horse without pain!
 | Panel | Progress | 
 |-------|----------|
 | [Local(without Panel)](/local) | 100% |
-| [VNetPanel](/vnetpanel) | 100% |
+| [VNetPanel](https://poseidon-gfw.cc/shi-yong-trojan-poseidon/with-vnetpanel) | 100% |
+| [V2board](https://poseidon-gfw.cc/shi-yong-trojan-poseidon/with-v2board) | 100% |
+| [SSPanel](https://poseidon-gfw.cc/shi-yong-trojan-poseidon/with-sspanel) | 100% |
 | WHMCS | 70% |
-| [SSPanel](/sspanel) | 100% |
-
 
 ### Poseidonfile
 
@@ -122,7 +122,7 @@ local {
 
 ### Docs
 
-All documents will be presented in [our docs](https://colettecontreras.github.io/trojan-poseidon/). Please read it carefully before creating a new issue.
+All documents will be presented in [our docs](https://poseidon-gfw.cc/shi-yong-trojan-poseidon/index). Please read it carefully before creating a new issue.
 
 ### Join us
 
@@ -131,7 +131,7 @@ All documents will be presented in [our docs](https://colettecontreras.github.io
 ### Acknowledgement
 
 - [Trojan](https://github.com/trojan-gfw/trojan)
-- [Trojan-Go](https://github.com/saito-mayumi/trojan-go)
+- VNetPanel
+- [V2Board](https://t.me/v2board)
 - [SSPanel](https://github.com/Anankke/SSPanel-Uim)
-- [VNetPanel](https://t.me/vnetpanel)
 - [WHMCS](https://www.whmcs.com/)
